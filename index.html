@@ -2,26 +2,53 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>AddMusic Giriş</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
   <style>
-    body { background-color: #000; color: white; font-family: Arial; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-    #box { background: #111; padding: 40px; border-radius: 12px; box-shadow: 0 0 20px #ff9900; }
-    input, button { margin: 10px 0; padding: 10px; width: 100%; border: none; border-radius: 6px; }
-    button { background-color: #ff9900; color: white; font-weight: bold; cursor: pointer; }
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      border: 3px solid orange;
+      border-radius: 10px;
+      padding: 30px;
+      background-color: #111;
+      box-shadow: 0 0 20px orange;
+    }
+    input, button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 200px;
+    }
+    button {
+      background-color: orange;
+      border: none;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div id="box">
+  <div class="container">
     <h2>AddMusic Giriş</h2>
-    <input type="email" id="email" placeholder="E-posta">
-    <input type="password" id="password" placeholder="Şifre">
-    <button onclick="giris()">Giriş Yap</button>
-    <button onclick="kayit()">Kayıt Ol</button>
+    <input type="email" id="email" placeholder="E-posta" />
+    <input type="password" id="password" placeholder="Şifre" />
+    <button onclick="login()">Giriş Yap</button>
+    <button onclick="signup()">Kayıt Ol</button>
   </div>
 
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
@@ -32,23 +59,24 @@
       appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
       measurementId: "G-CSCJNLMWHG"
     };
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    function giris() {
+    function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => window.location.href = "panel.html")
-        .catch(e => alert("Hata: " + e.message));
+        .then(() => alert("Giriş başarılı!"))
+        .catch(err => alert("Hata: " + err.message));
     }
 
-    function kayit() {
+    function signup() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       auth.createUserWithEmailAndPassword(email, password)
         .then(() => alert("Kayıt başarılı!"))
-        .catch(e => alert("Hata: " + e.message));
+        .catch(err => alert("Hata: " + err.message));
     }
   </script>
 </body>
