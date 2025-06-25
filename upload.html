@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>AddMusic - Müzik Yükle</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    h2 {
+      color: orange;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      background: #222;
+      color: white;
+      border: 1px solid orange;
+      border-radius: 8px;
+    }
+    button:hover {
+      background: orange;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎵 AddMusic - Müzik Yükle</h2>
+  <input type="text" id="musicName" placeholder="Şarkı İsmi" /><br>
+  <input type="file" id="musicFile" accept="audio/*" /><br>
+  <button onclick="uploadMusic()">Müziği Yükle</button>
+  <p id="status"></p>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
+      authDomain: "addmusic-e5e11.firebaseapp.com",
+      projectId: "addmusic-e5e11",
+      storageBucket: "addmusic-e5e11.appspot.com",
+      messagingSenderId: "86846373718",
+      appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
+      measurementId: "G-CSCJNLMWHG"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const storage = firebase.storage();
+    const db = firebase.firestore();
+
+    function generateISRC() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let isrc = 'TR-' + Date.now().toString().slice(-6) + '-';
+      for (let i = 0; i < 4; i++) {
+        isrc += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return isrc;
+    }
+
+    function uploadMusic() {
+      const fileInput = document.getElementById('musicFile');
+      const musicName = document.getElementById('musicName').value;
+      const file = fileInput.files[0];
+
+      if (!file || !musicName) {
+        alert("Lütfen tüm alanları doldur!");
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Önce giriş yap!");
+        return;
+      }
+
+      const isrcCode = generateISRC();
+      const fileRef = storage.ref(`music/${user.uid}/${file.name}`);
+
+      fileRef.put(file).then(snapshot => {
+        fileRef.getDownloadURL().then(url => {
+          db.collection("music").add({
+            userId: user.uid,
+            musicName,
+            fileURL: url,
+            isrc: isrcCode,
+            timestamp: new Date()
+          }).then(() => {
+            document.getElementById('status').innerText = "✅ Müzik başarıyla yüklendi!";
+          });
+        });
+      }).catch(err => {
+        console.error(err);
+        alert("Yükleme başarısız!");
+      });
+    }
+
+    // Oturum kontrolü
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html";
+      }
+    });
+  </script>
+</body>
+</html>
