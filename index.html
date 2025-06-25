@@ -3,90 +3,92 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AddMusic Giriş</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AddMusic V2</title>
   <style>
     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
       background: linear-gradient(to bottom, #000000, #111111);
-      font-family: 'Segoe UI', sans-serif;
       color: white;
-      padding: 2rem;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
     h1 {
       color: orange;
     }
-    .card {
+    .login-box {
       background: #1a1a1a;
-      padding: 2rem;
-      border-radius: 15px;
-      max-width: 400px;
-      margin: 2rem auto;
-      box-shadow: 0 0 10px rgba(255,165,0,0.3);
-    }
-    input, button {
-      display: block;
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      border: none;
-      border-radius: 8px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px orange;
+      width: 300px;
+      text-align: center;
     }
     input {
+      width: 90%;
+      margin: 10px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
       background: #333;
       color: white;
     }
     button {
+      width: 95%;
+      padding: 10px;
+      margin-top: 10px;
       background: orange;
-      color: black;
+      border: none;
+      border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #ffaa00;
     }
   </style>
 </head>
 <body>
-  <h1>🎧 AddMusic Giriş</h1>
-  <div class="card">
-    <input type="email" id="email" placeholder="E-posta">
-    <input type="password" id="password" placeholder="Şifre">
+  <h1>🔥 AddMusic V2</h1>
+  <div class="login-box">
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Şifre" />
     <button onclick="login()">Giriş Yap</button>
-    <button onclick="signup()">Kayıt Ol</button>
+    <button onclick="register()">Kayıt Ol</button>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
     const firebaseConfig = {
-      apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
+      apiKey: "AIzaSyCkY7GTuQ8wnnCKIOi55X8Ustwm55EPM",
       authDomain: "addmusic-e5e11.firebaseapp.com",
       projectId: "addmusic-e5e11",
-      storageBucket: "addmusic-e5e11.firebasestorage.app",
+      storageBucket: "addmusic-e5e11.appspot.com",
       messagingSenderId: "86846373718",
-      appId: "1:86846373718:web:400a4032942a38c1afe0f7",
-      measurementId: "G-NEMCDHBKS7"
+      appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
     };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
 
-    function login() {
-      const email = document.getElementById('email').value;
-      const pass = document.getElementById('password').value;
-      auth.signInWithEmailAndPassword(email, pass)
-        .then(user => alert("✅ Giriş başarılı!"))
-        .catch(e => alert("Hata: " + e.message));
-    }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-    function signup() {
-      const email = document.getElementById('email').value;
-      const pass = document.getElementById('password').value;
-      auth.createUserWithEmailAndPassword(email, pass)
-        .then(user => alert("✅ Kayıt başarılı!"))
-        .catch(e => alert("Hata: " + e.message));
-    }
+    window.login = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Giriş başarılı!"))
+        .catch((err) => alert("Giriş hatası: " + err.message));
+    };
+
+    window.register = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => alert("Kayıt başarılı!"))
+        .catch((err) => alert("Kayıt hatası: " + err.message));
+    };
   </script>
 </body>
 </html>
