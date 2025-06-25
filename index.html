@@ -3,68 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AddMusic</title>
+  <title>AddMusic - Tam Sistem</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <style>
     body {
-      background-color: black;
+      background: black;
       color: white;
       font-family: sans-serif;
-      margin: 0;
-      padding: 0;
       text-align: center;
-    }
-    header {
-      background-color: red;
       padding: 20px;
-      font-size: 24px;
-    }
-    main {
-      margin-top: 40px;
     }
     input, button {
-      margin-top: 10px;
+      margin: 8px;
       padding: 10px;
+      border-radius: 5px;
       font-size: 16px;
-      border-radius: 6px;
-      border: none;
-    }
-    input {
-      width: 250px;
     }
     button {
-      background-color: red;
+      background: red;
       color: white;
+      border: none;
       cursor: pointer;
     }
-    #welcome {
+    audio {
       margin-top: 20px;
-      font-size: 20px;
-      color: lime;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <header>AddMusic</header>
-  <main>
-    <h1>Hoş Geldiniz!</h1>
-    <p>Demo giriş yaparak sistemi test edebilirsiniz.</p>
-    
+  <h1>AddMusic</h1>
+
+  <!-- Giriş Paneli -->
+  <div id="authPanel">
+    <h2>Giriş Yap / Kayıt Ol</h2>
     <input type="email" id="email" placeholder="E-posta"><br>
     <input type="password" id="password" placeholder="Şifre"><br>
     <button onclick="login()">Giriş Yap</button>
+    <button onclick="signup()">Kayıt Ol</button>
+  </div>
 
-    <div id="welcome"></div>
-  </main>
+  <!-- Müzik Yükleme Paneli -->
+  <div id="uploadPanel" class="hidden">
+    <h2>Müzik Yükle</h2>
+    <input type="text" id="trackName" placeholder="Müzik Başlığı"><br>
+    <input type="file" id="musicFile" accept="audio/*"><br>
+    <button onclick="uploadMusic()">Yükle</button>
+    <p id="uploadStatus"></p>
+
+    <h3>Yüklenen Müzikler</h3>
+    <ul id="musicList"></ul>
+  </div>
 
   <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('authPanel').classList.add('hidden');
+        document.getElementById('uploadPanel').classList.remove('hidden');
+      }
+    });
+
     function login() {
       const email = document.getElementById('email').value;
       const pass = document.getElementById('password').value;
-      if (email && pass) {
-        document.getElementById('welcome').innerText = `Hoş geldin ${email.split('@')[0]}!`;
-      } else {
-        document.getElementById('welcome').innerText = "Lütfen bilgileri doldurun.";
+      auth.signInWithEmailAndPassword(email, pass)
+        .catch(err => alert(err.message));
+    }
+
+    function signup() {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      auth.createUserWithEmailAndPassword(email, pass)
+        .catch(err => alert(err.message));
+    }
+
+    function generateISRC() {
+      const year = new Date().getFullYear().toString().slice(-2);
+      const rand = Math.floor(10000 + Math.random() * 90000);
+      return `TR-XXX-${year}-${rand}`;
+    }
+
+    function uploadMusic() {
+      const fileInput = document.getElementById('musicFile');
+      const trackName = document.getElementById('trackName').value;
+      if (!fileInput.files.length || !trackName) {
+        alert("Lütfen müzik dosyası ve başlık girin.");
+        return;
       }
+
+      const file = fileInput.files[0];
+      const isrc = generateISRC();
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <strong>${trackName}</strong> (ISRC: ${isrc})<br>
+        <audio controls src="${URL.createObjectURL(file)}"></audio>
+      `;
+      document.getElementById('musicList').appendChild(li);
+      document.getElementById('uploadStatus').innerText = "Müzik yüklendi (geçici - demo).";
     }
   </script>
 </body>
