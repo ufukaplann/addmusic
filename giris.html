@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>AddMusic Giriş</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKIWZ7fQgUBnmwCKtO15S8Lbvtsm55EPM",
+      authDomain: "addmusic-e5e11.firebaseapp.com",
+      projectId: "addmusic-e5e11",
+      storageBucket: "addmusic-e5e11.appspot.com",
+      messagingSenderId: "86846373718",
+      appId: "1:86846373718:web:ba15d0789e96c550afe0f7",
+      measurementId: "G-CSCJNLWMHG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.onload = () => {
+      document.getElementById("girisBtn").addEventListener("click", () => {
+        const email = document.getElementById("email").value;
+        const sifre = document.getElementById("sifre").value;
+
+        signInWithEmailAndPassword(auth, email, sifre)
+          .then((userCredential) => {
+            alert("Giriş başarılı!");
+            window.location.href = "panel.html";
+          })
+          .catch((error) => {
+            alert("Hata: " + error.message);
+          });
+      });
+    };
+  </script>
+</head>
+<body style="background-color: black; color: white; font-family: sans-serif; text-align: center; margin-top: 100px;">
+  <h2>🎵 AddMusic Giriş</h2>
+  <input type="email" id="email" placeholder="E-posta" style="padding:10px;"><br><br>
+  <input type="password" id="sifre" placeholder="Şifre" style="padding:10px;"><br><br>
+  <button id="girisBtn" style="padding:10px 20px;">Giriş Yap</button>
+</body>
+</html>
