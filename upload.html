@@ -3,42 +3,59 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>AddMusic - Müzik Yükle</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Müzik Yükle - AddMusic</title>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
   <style>
     body {
-      background: black;
+      background-color: #0e0e0e;
       color: white;
-      font-family: sans-serif;
-      text-align: center;
-      margin-top: 100px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
     }
     h2 {
-      color: orange;
+      color: #ff6600;
+      margin-bottom: 30px;
     }
     input, button {
-      padding: 10px;
-      margin: 10px;
-      background: #222;
-      color: white;
-      border: 1px solid orange;
+      width: 300px;
+      padding: 12px;
+      margin: 10px 0;
       border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    input {
+      background-color: #222;
+      color: white;
+    }
+    button {
+      background-color: #ff6600;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
     }
     button:hover {
-      background: orange;
-      color: black;
-      cursor: pointer;
+      background-color: #ffa031;
+    }
+    p {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #bbb;
     }
   </style>
 </head>
 <body>
-  <h2>🎵 AddMusic - Müzik Yükle</h2>
-  <input type="text" id="musicName" placeholder="Şarkı İsmi" /><br>
-  <input type="file" id="musicFile" accept="audio/*" /><br>
-  <button onclick="uploadMusic()">Müziği Yükle</button>
+  <h2>🎵 Müzik Yükle</h2>
+  <input type="text" id="musicName" placeholder="Şarkı Adı" />
+  <input type="file" id="musicFile" accept="audio/*" />
+  <button onclick="uploadMusic()">Yükle</button>
   <p id="status"></p>
 
   <script>
@@ -103,7 +120,6 @@
       });
     }
 
-    // Oturum kontrolü
     auth.onAuthStateChanged(user => {
       if (!user) {
         window.location.href = "index.html";
