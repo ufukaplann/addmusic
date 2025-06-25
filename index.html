@@ -60,9 +60,12 @@
 
   <script>
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
+      apiKey: "AIzaSyD6Yl2q9Q1PZXa9G0c3Y5hK7N8Xx9YyWQ5",
+      authDomain: "addmusic-a1b2c.firebaseapp.com",
+      projectId: "addmusic-a1b2c",
+      storageBucket: "addmusic-a1b2c.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abcdef1234567890"
     };
     firebase.initializeApp(firebaseConfig);
 
@@ -110,7 +113,7 @@
         <audio controls src="${URL.createObjectURL(file)}"></audio>
       `;
       document.getElementById('musicList').appendChild(li);
-      document.getElementById('uploadStatus').innerText = "Müzik yüklendi (geçici - demo).";
+      document.getElementById('uploadStatus').innerText = "Müzik yüklendi (demo).";
     }
   </script>
 </body>
