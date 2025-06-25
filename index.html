@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AddMusic Premium</title>
+  <title>AddMusic Giriş</title>
   <style>
     body {
       background: #0f0f0f;
@@ -20,44 +20,69 @@
     h1 {
       color: orange;
     }
+    .box {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px orange;
+    }
+    input, button {
+      display: block;
+      width: 250px;
+      margin: 10px auto;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
     button {
       background: orange;
       color: black;
-      border: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
-      margin-top: 20px;
-    }
-    button:hover {
-      background: #ffaa00;
     }
   </style>
 </head>
 <body>
-  <h1>🎵 AddMusic Premium</h1>
-  <p>Reklamsız ve sınırsız müzik için şimdi abone olun!</p>
-  <button id="checkout-button">Abone Ol</button>
+  <h1>🎧 AddMusic Giriş</h1>
+  <div class="box">
+    <input type="email" id="email" placeholder="E-posta" />
+    <input type="password" id="password" placeholder="Şifre" />
+    <button onclick="login()">Giriş Yap</button>
+    <button onclick="register()">Kayıt Ol</button>
+  </div>
 
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    const stripe = Stripe("pk_test_51NqaDWKys...seninkisi"); // Buraya kendi Public key'ini eklemen gerek
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    document.getElementById("checkout-button").addEventListener("click", () => {
-      fetch("https://your-server.com/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: "prod_SZ8LargTYXLlD4"
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        return stripe.redirectToCheckout({ sessionId: data.id });
-      })
-      .catch(err => console.error("Stripe redirect hatası:", err));
-    });
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
+      authDomain: "addmusic-e5e11.firebaseapp.com",
+      projectId: "addmusic-e5e11",
+      storageBucket: "addmusic-e5e11.appspot.com",
+      messagingSenderId: "86846373718",
+      appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
+      measurementId: "G-CSCJNLMWHG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => alert("✅ Giriş başarılı!"))
+        .catch(err => alert("Giriş hatası: " + err.message));
+    };
+
+    window.register = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => alert("✅ Kayıt başarılı!"))
+        .catch(err => alert("Kayıt hatası: " + err.message));
+    };
   </script>
 </body>
 </html>
