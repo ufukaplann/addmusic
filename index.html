@@ -1,31 +1,28 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AddMusic V2 Stylish</title>
+  <title>AddMusic Giriş</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to bottom, #000000, #111111);
+      font-family: 'Segoe UI', sans-serif;
       color: white;
-      text-align: center;
       padding: 2rem;
+      text-align: center;
     }
     h1 {
       color: orange;
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
     }
     .card {
       background: #1a1a1a;
       padding: 2rem;
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(255,165,0,0.2);
-      margin: 2rem auto;
       max-width: 400px;
+      margin: 2rem auto;
+      box-shadow: 0 0 10px rgba(255,165,0,0.3);
     }
     input, button {
       display: block;
@@ -33,8 +30,7 @@
       padding: 0.8rem;
       margin: 0.5rem 0;
       border: none;
-      border-radius: 10px;
-      font-size: 1rem;
+      border-radius: 8px;
     }
     input {
       background: #333;
@@ -44,33 +40,34 @@
       background: orange;
       color: black;
       font-weight: bold;
+      cursor: pointer;
       transition: background 0.3s;
     }
     button:hover {
       background: #ffaa00;
     }
   </style>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 </head>
 <body>
-  <h1>🔥 AddMusic V2</h1>
+  <h1>🎧 AddMusic Giriş</h1>
   <div class="card">
-    <input type="email" id="email" placeholder="E-posta" />
-    <input type="password" id="password" placeholder="Şifre" />
+    <input type="email" id="email" placeholder="E-posta">
+    <input type="password" id="password" placeholder="Şifre">
     <button onclick="login()">Giriş Yap</button>
     <button onclick="signup()">Kayıt Ol</button>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyCXI7WUNm8CIX0lK5SBUvm55BPlPt_wRM",
+      apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
       authDomain: "addmusic-e5e11.firebaseapp.com",
       projectId: "addmusic-e5e11",
-      storageBucket: "addmusic-e5e11.appspot.com",
+      storageBucket: "addmusic-e5e11.firebasestorage.app",
       messagingSenderId: "86846373718",
-      appId: "1:86846373718:web:4028a4923e81cafe6f7e87",
-      measurementId: "G-NCEMDCBK75"
+      appId: "1:86846373718:web:400a4032942a38c1afe0f7",
+      measurementId: "G-NEMCDHBKS7"
     };
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
@@ -79,7 +76,7 @@
       const email = document.getElementById('email').value;
       const pass = document.getElementById('password').value;
       auth.signInWithEmailAndPassword(email, pass)
-        .then(() => alert("🎉 Giriş başarılı!"))
+        .then(user => alert("✅ Giriş başarılı!"))
         .catch(e => alert("Hata: " + e.message));
     }
 
@@ -87,7 +84,7 @@
       const email = document.getElementById('email').value;
       const pass = document.getElementById('password').value;
       auth.createUserWithEmailAndPassword(email, pass)
-        .then(() => alert("✅ Kayıt başarılı!"))
+        .then(user => alert("✅ Kayıt başarılı!"))
         .catch(e => alert("Hata: " + e.message));
     }
   </script>
