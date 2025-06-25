@@ -3,72 +3,15 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AddMusic Panel</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+  <title>Panel</title>
   <style>
-    body {
-      background-color: #0e0e0e;
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding: 40px;
-    }
-    h2 {
-      color: #ff6600;
-      margin-bottom: 30px;
-    }
-    button {
-      display: block;
-      width: 200px;
-      margin: 15px auto;
-      padding: 15px;
-      background-color: #ff6600;
-      color: black;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #ffa031;
-    }
+    body { background-color: #000; color: white; font-family: Arial; display: flex; align-items: center; justify-content: center; height: 100vh; flex-direction: column; }
+    h1 { color: #ff9900; }
+    p { margin-top: 20px; }
   </style>
 </head>
 <body>
-  <h2>🎧 AddMusic Kullanıcı Paneli</h2>
-  <button onclick="location.href='upload.html'">🎵 Müzik Yükle</button>
-  <button onclick="location.href='abonelik.html'">💳 Abone Ol (Yıllık)</button>
-  <button onclick="location.href='admin.html'">🛠 Admin Paneli</button>
-  <button onclick="logout()">🚪 Çıkış Yap</button>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
-      authDomain: "addmusic-e5e11.firebaseapp.com",
-      projectId: "addmusic-e5e11",
-      storageBucket: "addmusic-e5e11.appspot.com",
-      messagingSenderId: "86846373718",
-      appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
-      measurementId: "G-CSCJNLMWHG"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    function logout() {
-      auth.signOut().then(() => {
-        window.location.href = "index.html";
-      });
-    }
-
-    auth.onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = "index.html";
-      }
-    });
-  </script>
+  <h1>🎧 Hoş geldin AddMusic!</h1>
+  <p>Bu panel sayfasıdır. Stripe abonelik entegrasyonu buraya gelecek.</p>
 </body>
 </html>
