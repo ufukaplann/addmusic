@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abonelik - AddMusic</title>
+  <style>
+    body {
+      background-color: #0e0e0e;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    h2 {
+      color: #ff6600;
+    }
+    button {
+      margin-top: 30px;
+      padding: 14px 28px;
+      background-color: #ff6600;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      color: black;
+    }
+    button:hover {
+      background-color: #ffa031;
+    }
+  </style>
+</head>
+<body>
+  <h2>💳 AddMusic Abonelik</h2>
+  <p>Yıllık abone ol ve sınırsız müzik yükle!</p>
+  <button id="checkoutBtn">Abone Ol</button>
+
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+    const stripe = Stripe("pk_test_51NzbF1KoWap6UO5JcbYiWBAC_PUBLIC_KEYINLE_DEGIS"); // Değiştirmen gerekebilir
+
+    document.getElementById("checkoutBtn").addEventListener("click", () => {
+      fetch("https://stripe-checkout-server.vercel.app/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          priceId: "prod_SZ8LargTYXLlD4"
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        return stripe.redirectToCheckout({ sessionId: data.id });
+      });
+    });
+  </script>
+</body>
+</html>
