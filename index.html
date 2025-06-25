@@ -1,93 +1,60 @@
-
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AddMusic Giriş</title>
-  <style>
-    body {
-      background-color: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .container {
-      background-color: #1a1a1a;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px orange;
-    }
-    input, button {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      width: 100%;
-    }
-    button {
-      background-color: orange;
-      border: none;
-      color: black;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>🎧 AddMusic Giriş</h2>
-    <input type="email" id="email" placeholder="E-posta">
-    <input type="password" id="password" placeholder="Şifre">
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>AddMusic Giriş</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-family: Arial;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      input, button {
+        margin: 10px;
+        padding: 10px;
+        font-size: 16px;
+      }
+    </style>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
+        authDomain: "addmusic-e5e11.firebaseapp.com",
+        projectId: "addmusic-e5e11",
+        storageBucket: "addmusic-e5e11.appspot.com",
+        messagingSenderId: "86846373718",
+        appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
+        measurementId: "G-CSCJNLMWHG"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+
+      window.login = function() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            window.location.href = "panel.html";
+          })
+          .catch((error) => {
+            alert("Giriş başarısız: " + error.message);
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <h1>🎵 AddMusic Giriş</h1>
+    <input type="email" id="email" placeholder="E-posta" />
+    <input type="password" id="password" placeholder="Şifre" />
     <button onclick="login()">Giriş Yap</button>
-    <button onclick="register()">Kayıt Ol</button>
-  </div>
-
-  <script type="module">
-    // Firebase yapılandırması
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
-      authDomain: "addmusic-e5e11.firebaseapp.com",
-      projectId: "addmusic-e5e11",
-      storageBucket: "addmusic-e5e11.appspot.com",
-      messagingSenderId: "86846373718",
-      appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
-      measurementId: "G-CSCJNLMWHG"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.login = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("Giriş başarılı!");
-          window.location.href = "panel.html";
-        })
-        .catch((error) => {
-          alert("Hata: " + error.message);
-        });
-    };
-
-    window.register = function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
-        })
-        .catch((error) => {
-          alert("Hata: " + error.message);
-        });
-    };
-  </script>
-</body>
+  </body>
 </html>
