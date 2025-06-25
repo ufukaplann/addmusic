@@ -21,23 +21,51 @@
     main {
       margin-top: 40px;
     }
+    input, button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+    }
+    input {
+      width: 250px;
+    }
     button {
       background-color: red;
       color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
       cursor: pointer;
+    }
+    #welcome {
+      margin-top: 20px;
+      font-size: 20px;
+      color: lime;
     }
   </style>
 </head>
 <body>
   <header>AddMusic</header>
   <main>
-    <h1>Hoş Geldin!</h1>
-    <p>Bu site yıllık abonelik sistemine sahip bir müzik platformudur.</p>
-    <button>Hemen Abone Ol</button>
+    <h1>Hoş Geldiniz!</h1>
+    <p>Demo giriş yaparak sistemi test edebilirsiniz.</p>
+    
+    <input type="email" id="email" placeholder="E-posta"><br>
+    <input type="password" id="password" placeholder="Şifre"><br>
+    <button onclick="login()">Giriş Yap</button>
+
+    <div id="welcome"></div>
   </main>
+
+  <script>
+    function login() {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      if (email && pass) {
+        document.getElementById('welcome').innerText = `Hoş geldin ${email.split('@')[0]}!`;
+      } else {
+        document.getElementById('welcome').innerText = "Lütfen bilgileri doldurun.";
+      }
+    }
+  </script>
 </body>
 </html>
