@@ -2,27 +2,55 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AddMusic Giriş</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
   <style>
-    body { background-color: #000; color: white; font-family: Arial; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-    #box { background: #111; padding: 40px; border-radius: 12px; box-shadow: 0 0 20px #ff9900; }
-    input, button { margin: 10px 0; padding: 10px; width: 100%; border: none; border-radius: 6px; }
-    button { background-color: #ff9900; color: white; font-weight: bold; cursor: pointer; }
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px orange;
+    }
+    input, button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+    }
+    button {
+      background-color: orange;
+      border: none;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <div id="box">
-    <h2>AddMusic Giriş</h2>
+  <div class="container">
+    <h2>🎧 AddMusic Giriş</h2>
     <input type="email" id="email" placeholder="E-posta">
     <input type="password" id="password" placeholder="Şifre">
-    <button onclick="giris()">Giriş Yap</button>
-    <button onclick="kayit()">Kayıt Ol</button>
+    <button onclick="login()">Giriş Yap</button>
+    <button onclick="register()">Kayıt Ol</button>
   </div>
 
-  <script>
+  <script type="module">
+    // Firebase yapılandırması
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
       authDomain: "addmusic-e5e11.firebaseapp.com",
@@ -32,24 +60,34 @@
       appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
       measurementId: "G-CSCJNLMWHG"
     };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
 
-    function giris() {
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => window.location.href = "panel.html")
-        .catch(e => alert("Hata: " + e.message));
-    }
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Giriş başarılı!");
+          window.location.href = "panel.html";
+        })
+        .catch((error) => {
+          alert("Hata: " + error.message);
+        });
+    };
 
-    function kayit() {
+    window.register = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => alert("Kayıt başarılı!"))
-        .catch(e => alert("Hata: " + e.message));
-    }
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+        })
+        .catch((error) => {
+          alert("Hata: " + error.message);
+        });
+    };
   </script>
 </body>
 </html>
