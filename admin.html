@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - AddMusic</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+  <style>
+    body {
+      background-color: #0e0e0e;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px;
+    }
+    h2 {
+      color: #ff6600;
+      margin-bottom: 20px;
+    }
+    .music-card {
+      background: #1e1e1e;
+      border: 1px solid #ff660033;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 10px;
+      margin-right: 10px;
+      padding: 8px 14px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .approve-btn {
+      background-color: limegreen;
+      color: black;
+    }
+    .delete-btn {
+      background-color: crimson;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>🛠 Admin Panel</h2>
+  <div id="musicList">Şarkılar yükleniyor...</div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
+      authDomain: "addmusic-e5e11.firebaseapp.com",
+      projectId: "addmusic-e5e11",
+      storageBucket: "addmusic-e5e11.appspot.com",
+      messagingSenderId: "86846373718",
+      appId: "1:86846373718:web:ba315d0789e96c550afe0f7",
+      measurementId: "G-CSCJNLMWHG"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html";
+      } else {
+        loadMusic();
+      }
+    });
+
+    function loadMusic() {
+      db.collection("music").orderBy("timestamp", "desc").get().then(snapshot => {
+        const list = document.getElementById("musicList");
+        list.innerHTML = "";
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const div = document.createElement("div");
+          div.className = "music-card";
+          div.innerHTML = `
+            <strong>${data.musicName}</strong><br/>
+            ISRC: ${data.isrc}<br/>
+            <audio controls src="${data.fileURL}"></audio><br/>
+            <button class="approve-btn" onclick="approve('${doc.id}')">✅ Onayla</button>
+            <button class="delete-btn" onclick="remove('${doc.id}')">🗑 Sil</button>
+          `;
+          list.appendChild(div);
+        });
+      });
+    }
+
+    function approve(id) {
+      db.collection("music").doc(id).update({ approved: true }).then(loadMusic);
+    }
+
+    function remove(id) {
+      db.collection("music").doc(id).delete().then(loadMusic);
+    }
+  </script>
+</body>
+</html>
