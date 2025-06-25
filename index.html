@@ -7,53 +7,48 @@
   <title>AddMusic Giriş</title>
   <style>
     body {
-      background: #0f0f0f;
-      color: white;
+      background-color: #000;
+      color: #FFA500;
       font-family: Arial, sans-serif;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
     }
-    h1 {
-      color: orange;
-    }
-    .box {
-      background: #1e1e1e;
+    .login-box {
+      background-color: #111;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px orange;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255,165,0,0.4);
     }
     input, button {
-      display: block;
-      width: 250px;
-      margin: 10px auto;
+      width: 100%;
       padding: 10px;
-      border-radius: 5px;
+      margin: 10px 0;
       border: none;
+      border-radius: 8px;
     }
     button {
-      background: orange;
-      color: black;
+      background-color: #FFA500;
+      color: #000;
       font-weight: bold;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>🎧 AddMusic Giriş</h1>
-  <div class="box">
-    <input type="email" id="email" placeholder="E-posta" />
-    <input type="password" id="password" placeholder="Şifre" />
+  <div class="login-box">
+    <h2>🎧 AddMusic Giriş</h2>
+    <input type="email" id="email" placeholder="E-posta">
+    <input type="password" id="password" placeholder="Şifre">
     <button onclick="login()">Giriş Yap</button>
     <button onclick="register()">Kayıt Ol</button>
   </div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
@@ -68,21 +63,33 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    window.login = () => {
+    window.login = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => alert("✅ Giriş başarılı!"))
-        .catch(err => alert("Giriş hatası: " + err.message));
-    };
 
-    window.register = () => {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("Giriş başarılı!");
+          window.location.href = "panel.html";
+        })
+        .catch((error) => {
+          alert("Giriş hatası: " + error.message);
+        });
+    }
+
+    window.register = function () {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+
       createUserWithEmailAndPassword(auth, email, password)
-        .then(() => alert("✅ Kayıt başarılı!"))
-        .catch(err => alert("Kayıt hatası: " + err.message));
-    };
+        .then((userCredential) => {
+          alert("Kayıt başarılı!");
+          window.location.href = "panel.html";
+        })
+        .catch((error) => {
+          alert("Kayıt hatası: " + error.message);
+        });
+    }
   </script>
 </body>
 </html>
