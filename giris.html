@@ -2,8 +2,15 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>AddMusic Giriş</title>
+</head>
+<body style="background-color: black; color: white; text-align: center; padding-top: 100px; font-family: Arial;">
+  <h2>🎵 AddMusic Giriş</h2>
+  <input type="email" id="email" placeholder="E-posta"><br><br>
+  <input type="password" id="sifre" placeholder="Şifre"><br><br>
+  <button id="girisBtn">Giriş Yap</button>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -28,7 +35,7 @@
 
         signInWithEmailAndPassword(auth, email, sifre)
           .then((userCredential) => {
-            alert("Giriş başarılı!");
+            console.log("✅ Giriş başarılı, yönlendiriliyor...");
             window.location.href = "panel.html";
           })
           .catch((error) => {
@@ -37,11 +44,5 @@
       });
     };
   </script>
-</head>
-<body style="background-color: black; color: white; font-family: sans-serif; text-align: center; margin-top: 100px;">
-  <h2>🎵 AddMusic Giriş</h2>
-  <input type="email" id="email" placeholder="E-posta" style="padding:10px;"><br><br>
-  <input type="password" id="sifre" placeholder="Şifre" style="padding:10px;"><br><br>
-  <button id="girisBtn" style="padding:10px 20px;">Giriş Yap</button>
 </body>
 </html>
