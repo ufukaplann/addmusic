@@ -2,53 +2,51 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>AddMusic Giriş</title>
   <style>
     body {
       background-color: black;
-      color: white;
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
+      margin: 0;
     }
-    .container {
-      border: 3px solid orange;
-      border-radius: 10px;
+    .login-box {
+      background-color: #1e1e1e;
       padding: 30px;
-      background-color: #111;
+      border-radius: 12px;
       box-shadow: 0 0 20px orange;
+      color: white;
+      text-align: center;
     }
     input, button {
-      display: block;
-      margin: 10px auto;
+      width: 100%;
       padding: 10px;
-      width: 200px;
+      margin: 10px 0;
     }
     button {
       background-color: orange;
       border: none;
-      color: black;
-      font-weight: bold;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="login-box">
     <h2>AddMusic Giriş</h2>
-    <input type="email" id="email" placeholder="E-posta" />
-    <input type="password" id="password" placeholder="Şifre" />
+    <input type="email" id="email" placeholder="E-posta">
+    <input type="password" id="password" placeholder="Şifre">
     <button onclick="login()">Giriş Yap</button>
-    <button onclick="signup()">Kayıt Ol</button>
+    <button onclick="register()">Kayıt Ol</button>
   </div>
 
-  <!-- Firebase CDN -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <!-- Firebase SDK - compat sürümleri -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCKIZWF7qGU8nwnCKIOi55X8Ustwm55EPM",
@@ -68,15 +66,15 @@
       const password = document.getElementById("password").value;
       auth.signInWithEmailAndPassword(email, password)
         .then(() => alert("Giriş başarılı!"))
-        .catch(err => alert("Hata: " + err.message));
+        .catch(error => alert("Hata: " + error.message));
     }
 
-    function signup() {
+    function register() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       auth.createUserWithEmailAndPassword(email, password)
         .then(() => alert("Kayıt başarılı!"))
-        .catch(err => alert("Hata: " + err.message));
+        .catch(error => alert("Hata: " + error.message));
     }
   </script>
 </body>
