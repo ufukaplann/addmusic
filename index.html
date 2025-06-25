@@ -1,1 +1,52 @@
-<!DOCTYPE html><html><head><title>AddMusic V2</title></head><body><h1>Merhaba AddMusic V2!</h1></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AddMusic V2 - Çalışan Sürüm</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <style>
+    body { background: black; color: white; font-family: sans-serif; text-align: center; padding: 30px; }
+    input, button { padding: 10px; margin: 8px; border-radius: 5px; }
+    button { background: red; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>🎵 AddMusic V2</h1>
+  <input type="email" id="email" placeholder="E-posta"><br>
+  <input type="password" id="password" placeholder="Şifre"><br>
+  <button onclick="login()">Giriş Yap</button>
+  <button onclick="signup()">Kayıt Ol</button>
+
+  <script>
+    
+const firebaseConfig = {
+  apiKey: "AIzaSyD6Yl2q9Q1PZXa9G0c3Y5hK7N8Xx9YyWQ5",
+  authDomain: "addmusic-a1b2c.firebaseapp.com",
+  projectId: "addmusic-a1b2c",
+  storageBucket: "addmusic-a1b2c.appspot.com",
+  messagingSenderId: "123456789012",
+  appId: "1:123456789012:web:abcdef1234567890"
+};
+
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      auth.signInWithEmailAndPassword(email, pass)
+        .then(() => alert("Giriş başarılı!"))
+        .catch(e => alert("Hata: " + e.message));
+    }
+
+    function signup() {
+      const email = document.getElementById('email').value;
+      const pass = document.getElementById('password').value;
+      auth.createUserWithEmailAndPassword(email, pass)
+        .then(() => alert("Kayıt başarılı!"))
+        .catch(e => alert("Hata: " + e.message));
+    }
+  </script>
+</body>
+</html>
